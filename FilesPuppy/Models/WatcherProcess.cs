@@ -34,6 +34,7 @@ namespace FilesPuppy.Models
         }
 
         [Log]
+        [AccessLog]
         public virtual void Process()
         {
             if (eParam.GetType() == typeof(RenamedEventArgs))

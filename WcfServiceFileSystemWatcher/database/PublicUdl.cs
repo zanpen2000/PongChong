@@ -9,6 +9,6 @@ namespace WcfServiceFileSystemWatcher.database
 {
     public static class PublicUdl
     {
-        public static string connMdbUDL = "Provider=" + AppSettings.Get("Provider") + ";DataSource=" + AppSettings.Get("DataSource");
+        public static string connMdbUDL = "Provider=" + AppSettings.Get("Provider") + ";Data Source=" + AppSettings.Get("DataSource");
     }
 }
