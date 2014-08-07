@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Aop\AccessLogAttribute.cs" />
     <Compile Include="Aop\AOPAttribute.cs" />
     <Compile Include="Aop\InterceptorProxy.cs" />
     <Compile Include="Aop\LogAttribute.cs" />
