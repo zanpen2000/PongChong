@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.ServiceModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 
 namespace FilesPuppy
@@ -41,8 +42,8 @@ namespace FilesPuppy
         {
             base.OnDoCreate(item, args);
             LogLines = new ObservableCollection<LogLineModel>();
-            
-          
+
+
 
             OnServiceCommand = this.RegisterCommand(StartService, CanSetService);
             SettingCommand = this.RegisterCommand(ShowSettingView);
@@ -120,9 +121,14 @@ namespace FilesPuppy
             }
         }
 
+        public Dispatcher ThreadDispatcher = Dispatcher.CurrentDispatcher;
+
         private void SetLog(string msg)
         {
-            LogLines.Add(new LogLineModel() { Message = msg, Time = DateTime.Now.ToString() });
+            ThreadDispatcher.Invoke((System.Windows.Forms.MethodInvoker)delegate
+            {
+                LogLines.Add(new LogLineModel() { Message = msg, Time = DateTime.Now.ToString() });
+            }, null);
         }
 
         private void host_Closed(object sender, EventArgs e)
@@ -143,14 +149,33 @@ namespace FilesPuppy
                     {
                         SetLog(item.Key.ToString() + " 开始监视");
                         item.Value.OnCreated += Value_OnCreated;
+                        item.Value.OnDeleted += Value_OnDeleted;
+                        item.Value.OnChanged += Value_OnChanged;
+                        item.Value.OnRenamed += Value_OnRenamed;
+                        item.Value.Start();
                     }
                 }
             }
         }
 
+        void Value_OnRenamed(object sender, System.IO.RenamedEventArgs e)
+        {
+            SetLog("重命名文件 " + e.OldFullPath + " -> " + e.FullPath);
+        }
+
+        void Value_OnChanged(object sender, System.IO.FileSystemEventArgs e)
+        {
+            SetLog("修改文件 " + e.FullPath);
+        }
+
+        void Value_OnDeleted(object sender, System.IO.FileSystemEventArgs e)
+        {
+            SetLog("删除文件 " + e.FullPath);
+        }
+
         void Value_OnCreated(object sender, System.IO.FileSystemEventArgs e)
         {
-            SetLog("创建文件" + e.FullPath);
+            SetLog("创建文件 " + e.FullPath);
         }
 
         private void host_UnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)

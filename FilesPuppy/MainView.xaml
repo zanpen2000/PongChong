@@ -29,7 +29,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="时间" DisplayMemberBinding="{Binding Time}"/>
-                    <GridViewColumn Header="消息" DisplayMemberBinding="{Binding Message}"/>
+                    <GridViewColumn Header="消息" DisplayMemberBinding="{Binding Message}" Width="450"/>
                 </GridView>
             </ListView.View>
         </ListView>

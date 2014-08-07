@@ -36,6 +36,8 @@ namespace FilesPuppy.Models
                 throw new Exception("找不到路径：" + path);
             }
 
+            this.Path = path;
+
             hstbWather = new Hashtable();
 
             fsWather = new FileSystemWatcher(path);
