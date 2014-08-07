@@ -74,7 +74,11 @@ namespace FilesPuppy.Views
 
         void LoadDirList()
         {
-            DirListHelper.Load().ToList().ForEach(x => DirList.Add(x));
+            var dirs = DirListHelper.Load();
+            if (dirs != null)
+            {
+                dirs.ToList().ForEach(x => DirList.Add(x));
+            }
             DirListChangedState = false;
         }
 
