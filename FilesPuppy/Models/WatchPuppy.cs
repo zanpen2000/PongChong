@@ -22,6 +22,9 @@ namespace FilesPuppy.Models
         public event FileSystemEventHandler OnCreated = delegate { };
         public event FileSystemEventHandler OnDeleted = delegate { };
 
+        public bool Watched { get { return fsWather.EnableRaisingEvents; } }
+
+        public bool Selected { get; set; }
 
         public string Path { get; private set; }
 

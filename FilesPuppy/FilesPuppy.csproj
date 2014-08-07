@@ -88,12 +88,12 @@
     <Compile Include="Layers\ServiceCaller.cs" />
     <Compile Include="Models\WatcherLocator.cs" />
     <Compile Include="Models\DirListHelper.cs" />
-    <Compile Include="Models\DirWithStatus.cs" />
     <Compile Include="Models\LogLineModel.cs" />
-    <Compile Include="Models\StatusConverter.cs" />
+    <Compile Include="Models\ServerStatusConverter.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Models\WatcherProcess.cs" />
     <Compile Include="Models\WatchPuppy.cs" />
+    <Compile Include="Models\WatchStatusConverter.cs" />
     <Compile Include="Views\DirSelectStartView.xaml.cs">
       <DependentUpon>DirSelectStartView.xaml</DependentUpon>
     </Compile>

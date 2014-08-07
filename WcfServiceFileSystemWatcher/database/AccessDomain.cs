@@ -22,10 +22,12 @@ namespace WcfServiceFileSystemWatcher.database
 
             foreach (string file in files)
             {
+                if (FileExists(file)) continue;// 文件存在就不添加了
+
                 OleDbParameter[] parameters = new OleDbParameter[3] 
                 { 
                 new OleDbParameter("@path",file),
-                new OleDbParameter("@stime",DateTime.Now),
+                new OleDbParameter("@stime",DateTime.Now.ToString()),
                 new OleDbParameter("@got",false)
                 
                 };
@@ -36,15 +38,26 @@ namespace WcfServiceFileSystemWatcher.database
             return result;
         }
 
+        public bool DeleteFile(string file)
+        {
+            if (!FileExists(file)) return true;
+
+            string sql = "delete from scanedfiles where fullpath='"+file+"'";
+
+            return oledb.OleDbExecute(sql);
+        }
+
 
         public bool AppendFile(string file)
         {
+            if (FileExists(file)) return true;// 文件存在就不添加了
+
             string insql = @"insert into scanedfiles(fullpath,scantime,got) values(@path,@stime,@got)";
 
             OleDbParameter[] parameters = new OleDbParameter[3] 
                 { 
                 new OleDbParameter("@path",file),
-                new OleDbParameter("@stime",DateTime.Now),
+                new OleDbParameter("@stime",DateTime.Now.ToString()),
                 new OleDbParameter("@got",false)
                 
                 };
@@ -53,6 +66,17 @@ namespace WcfServiceFileSystemWatcher.database
 
         }
 
+        public bool FileExists(string filename)
+        {
+            DataSet ds;
+            if (oledb.GetDataSet("select * from scanedfiles where fullpath='"+filename+"'", out ds))
+            {
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    return true;
+            }
+
+            return false;
+        }
 
         public bool UpdateFile(string file)
         {
@@ -68,7 +92,7 @@ namespace WcfServiceFileSystemWatcher.database
 
             OleDbParameter[] parameters = new OleDbParameter[1] 
                 { 
-                new OleDbParameter("@gtime",DateTime.Now)
+                new OleDbParameter("@gtime",DateTime.Now.ToString())
                 
                 };
 

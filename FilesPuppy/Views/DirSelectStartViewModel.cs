@@ -17,13 +17,6 @@ namespace FilesPuppy.Views
         [Import(typeof(IWindowManager))]
         public IWindowManager Window = null;
 
-        //public static ExtendProperty DirsProperty = RegisterProperty<DirSelectStartViewModel>(v => v.Dirs);
-        //public ObservableCollection<DirWithStatus> Dirs
-        //{
-        //    set { SetValue(DirsProperty, value); }
-        //    get { return (ObservableCollection<DirWithStatus>)GetValue(DirsProperty); }
-        //}
-
         public static ExtendProperty DirsViewProperty = RegisterProperty<DirSelectStartViewModel>(v => v.DirsView);
         public CollectionView DirsView
         {
@@ -31,6 +24,12 @@ namespace FilesPuppy.Views
             get { return (CollectionView)GetValue(DirsViewProperty); }
         }
 
+        public static ExtendProperty OnOffProperty = RegisterProperty<DirSelectStartViewModel>(v => v.OnOff);
+        public bool OnOff
+        {
+            set { SetValue(OnOffProperty, value); }
+            get { return (bool)GetValue(OnOffProperty); }
+        }
 
         ///<summary>
         ///构造方法
@@ -48,13 +47,12 @@ namespace FilesPuppy.Views
         /// </summary>
         private void init()
         {
-            List<DirWithStatus> dirs = new List<DirWithStatus>();
             FilesPuppy.Models.DirListHelper.Load().ToList().ForEach(v =>
             {
-                dirs.Add(new DirWithStatus() { Fullpath = v, Selected = false });
+                WatcherLocator.AddWatcher(v);
             });
 
-            DirsView = new CollectionView(dirs);
+            DirsView = new CollectionView(WatcherLocator.Watchers);
             DirsView.Filter = new Predicate<object>(Contains);
             OKCommand = new RelayCommand(OKExecute, CanOKExecute);
             CancelCommand = new RelayCommand(CancelExecute);
@@ -62,7 +60,8 @@ namespace FilesPuppy.Views
 
         private bool Contains(object obj)
         {
-            return (obj as DirWithStatus).Selected == false;
+            var o = (obj as Dictionary<string, WatchPuppy>);
+            return o.Values.Select(s => s.Selected == OnOff).Count() > 0;
         }
 
         private void CancelExecute()
@@ -79,12 +78,11 @@ namespace FilesPuppy.Views
         {
             DirsView.Filter = null;
 
-            DirsView.Filter = (obj) => { return (obj as DirWithStatus).Selected == true; };
+            DirsView.Filter = (obj) => { return (obj as Dictionary<string, WatchPuppy>).Values.Select(s => s.Selected == OnOff).Count() > 0; };
 
-            foreach (DirWithStatus item in DirsView)
+            foreach (KeyValuePair<string,WatchPuppy> watch in DirsView)
             {
-                WatchPuppy w = new WatchPuppy(item.Fullpath,"*");
-                WatcherLocator.AddWatcher(w);
+                watch.Value.Selected = true;
             }
 
             this.TryOK();

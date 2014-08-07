@@ -3,6 +3,7 @@ using ExtendPropertyLib.WPF;
 using FilesPuppy.Models;
 using FilesPuppy.Views;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.ServiceModel;
@@ -18,40 +19,108 @@ namespace FilesPuppy
         [Import(typeof(IWindowManager))]
         public IWindowManager iw = null;
 
-
-        public static ExtendProperty TitleProperty = RegisterProperty<MainViewModel>(v => v.Title);
-        public string Title { set { SetValue(StartedProperty, value); } get { return (string)GetValue(TitleProperty); } }
-
-
-
+        /// <summary>
+        /// WCF服务状态
+        /// </summary>
         public static ExtendProperty StartedProperty = RegisterProperty<MainViewModel>(v => v.Started);
         public bool Started { set { SetValue(StartedProperty, value); } get { return (bool)GetValue(StartedProperty); } }
 
 
+        /// <summary>
+        /// 监视状态
+        /// </summary>
+        public static ExtendProperty WatchedProperty = RegisterProperty<MainViewModel>(v => v.Watched);
+        public bool Watched { set { SetValue(WatchedProperty, value); } get { return (bool)GetValue(WatchedProperty); } }
+
+        /// <summary>
+        /// 窗体日志
+        /// </summary>
         public static ExtendProperty LogLinesProperty = RegisterProperty<MainViewModel>(v => v.LogLines);
         public ObservableCollection<LogLineModel> LogLines { set { SetValue(LogLinesProperty, value); } get { return (ObservableCollection<LogLineModel>)GetValue(LogLinesProperty); } }
 
+        /// <summary>
+        /// WCF主机
+        /// 
+        /// </summary>
         public ServiceHost Host { get; private set; }
 
-        public ICommand OnServiceCommand { get; set; }
-        public ICommand SettingCommand { get; set; }
-        public ICommand ExitCommand { get; set; }
-
+        public RelayCommand OnServiceCommand { get; set; }
+        public RelayCommand SettingCommand { get; set; }
+        public RelayCommand ExitCommand { get; set; }
+        public RelayCommand OnWatchStartCommand { get; set; }
+        public RelayCommand OnWatchStopCommand { get; set; }
 
         public override void OnDoCreate(ExtendPropertyLib.ExtendObject item, params object[] args)
         {
             base.OnDoCreate(item, args);
             LogLines = new ObservableCollection<LogLineModel>();
 
-
-
-            OnServiceCommand = this.RegisterCommand(StartService, CanSetService);
-            SettingCommand = this.RegisterCommand(ShowSettingView);
-            ExitCommand = this.RegisterCommand(AppExit, CanAppExit);
+            OnServiceCommand = new RelayCommand(StartService, CanSetService);
+            OnWatchStartCommand = new RelayCommand(SetWatchStart, CanSetWatchStart);
+            OnWatchStopCommand = new RelayCommand(SetWatchStop, CanSetWatchStop);
+            SettingCommand = new RelayCommand(ShowSettingView);
+            ExitCommand = new RelayCommand(AppExit, CanAppExit);
 
             this.PropertyChanged += MainViewModel_PropertyChanged;
 
         }
+
+        private void SetWatchStop()
+        {
+            var viewModel = CreateView<DirSelectStartViewModel>(true);
+            viewModel.OnOff = false;
+            var result = (bool)iw.ShowDialog(viewModel);
+            if (result)
+            {
+                if (WatcherLocator.Watchers.Count > 0)
+                {
+                    foreach (var item in WatcherLocator.Watchers)
+                    {
+                        SetLog(item.Key.ToString() + " 开始监视");
+                        item.Value.OnCreated -= Value_OnCreated;
+                        item.Value.OnDeleted -= Value_OnDeleted;
+                        item.Value.OnChanged -= Value_OnChanged;
+                        item.Value.OnRenamed -= Value_OnRenamed;
+                        item.Value.Stop();
+                    }
+                }
+            }
+        }
+
+        private bool CanSetWatchStop()
+        {
+            return true;
+            //return WatcherLocator.Watchers.Values.Select(t => t.Watched == true).Count() > 0;
+        }
+
+        private bool CanSetWatchStart()
+        {
+            return true;
+            //return WatcherLocator.Watchers.Values.Select(t => t.Watched == false).Count() > 0;
+        }
+
+        private void SetWatchStart()
+        {
+            var viewModel = CreateView<DirSelectStartViewModel>(true);
+            viewModel.OnOff = true;
+            var result = (bool)iw.ShowDialog(viewModel);
+            if (result)
+            {
+                if (WatcherLocator.Watchers.Count > 0)
+                {
+                    foreach (var item in WatcherLocator.Watchers)
+                    {
+                        SetLog(item.Key.ToString() + " 开始监视");
+                        item.Value.OnCreated += Value_OnCreated;
+                        item.Value.OnDeleted += Value_OnDeleted;
+                        item.Value.OnChanged += Value_OnChanged;
+                        item.Value.OnRenamed += Value_OnRenamed;
+                        item.Value.Start();
+                    }
+                }
+            }
+        }
+
 
         private bool CanAppExit()
         {
@@ -73,7 +142,12 @@ namespace FilesPuppy
         {
             if (e.PropertyName.Equals("Started"))
             {
-                this.OnServiceCommand.CanExecute(null);
+                this.OnServiceCommand.RaiseCanExecuteChanged();
+            }
+            else if (e.PropertyName.Equals("Watched"))
+            {
+                this.OnWatchStopCommand.RaiseCanExecuteChanged();
+                this.OnWatchStartCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -139,23 +213,7 @@ namespace FilesPuppy
         private void host_Opened(object sender, EventArgs e)
         {
             SetLog("服务已启动");
-            var viewModel = CreateView<DirSelectStartViewModel>(true);
-            var result = (bool)iw.ShowDialog(viewModel);
-            if (result)
-            {
-                if (WatcherLocator.Watchers.Count > 0)
-                {
-                    foreach (var item in WatcherLocator.Watchers)
-                    {
-                        SetLog(item.Key.ToString() + " 开始监视");
-                        item.Value.OnCreated += Value_OnCreated;
-                        item.Value.OnDeleted += Value_OnDeleted;
-                        item.Value.OnChanged += Value_OnChanged;
-                        item.Value.OnRenamed += Value_OnRenamed;
-                        item.Value.Start();
-                    }
-                }
-            }
+
         }
 
         void Value_OnRenamed(object sender, System.IO.RenamedEventArgs e)

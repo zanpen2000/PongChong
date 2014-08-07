@@ -29,6 +29,9 @@ namespace WcfServiceFileSystemWatcher
 
         [OperationContract]
         bool InsertGetFileTimeLog();
+
+        [OperationContract]
+        bool DeleteFile(string file);
     }
 
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。

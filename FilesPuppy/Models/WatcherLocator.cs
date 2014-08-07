@@ -7,23 +7,28 @@ namespace FilesPuppy.Models
 {
     public class WatcherLocator
     {
-        public static Dictionary<string, WatchPuppy> Watchers = new Dictionary<string, WatchPuppy>();
-
+        public static List<WatchPuppy> Watchers = new List<WatchPuppy>();
 
         public static void AddWatcher(WatchPuppy watcher)
         {
-            Watchers.Add(watcher.Path, watcher);
+            if(Watchers.Count(w=>w.Path == watcher.Path)<1)
+            {
+                Watchers.Add(watcher);
+            }
         }
 
         public static void AddWatcher(string dir, string filter = "*")
         {
-            WatchPuppy p = new WatchPuppy(dir, filter);
-            Watchers.Add(dir, p);
+            if (Watchers.Count(w => w.Path == dir) < 1)
+            {
+                WatchPuppy p = new WatchPuppy(dir, filter);
+                Watchers.Add(p);
+            }
         }
 
         public static WatchPuppy GetWatcher(string dir)
         {
-            return Watchers[dir];
+            return Watchers.Find(w => w.Path == dir);
         }
     }
 }

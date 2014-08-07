@@ -33,14 +33,39 @@ namespace FilesPuppy.Aop
                     if (e.ChangeType == WatcherChangeTypes.Created)
                     {
                         filename = e.FullPath;
+                     
+                        if (File.Exists(filename))
+                        {
+                            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+                            {
+                                w.AddFile(filename);
+                            });
+                        }
+
                     }
                     else if (e.ChangeType == WatcherChangeTypes.Changed)
                     {
                         filename = e.FullPath;
+
+                        if (File.Exists(filename))
+                        {
+                            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+                            {
+                                w.AddFile(filename);
+                            });
+                        }
                     }
                     else if (e.ChangeType == WatcherChangeTypes.Deleted)
                     {
                         filename = e.FullPath;
+
+                        if (File.Exists(filename))
+                        {
+                            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+                            {
+                                w.DeleteFile(filename);
+                            });
+                        }
                     }
                     else
                     {
@@ -48,14 +73,9 @@ namespace FilesPuppy.Aop
                     }
                 }
 
-                if (File.Exists(filename))
-                {
-                    ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
-                    {
-                        w.AddFile(filename);
-                    });
-                }
             }
         }
+
+      
     }
 }

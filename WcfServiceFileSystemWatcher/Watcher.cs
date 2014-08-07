@@ -39,6 +39,11 @@ namespace WcfServiceFileSystemWatcher
             return access.GetLastFiles();
         }
 
+        public bool DeleteFile(string file)
+        {
+            return access.DeleteFile(file);
+        }
+
         public bool AddFile(string filepath)
         {
             return access.AppendFile(filepath);

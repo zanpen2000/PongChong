@@ -113,7 +113,6 @@ namespace FilesPuppy.Views
             {
                 ApplyCommand.RaiseCanExecuteChanged();
             }
-
         }
 
         public override void OnLoad()

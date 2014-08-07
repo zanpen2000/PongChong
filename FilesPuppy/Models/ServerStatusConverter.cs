@@ -8,7 +8,7 @@ using System.Windows.Data;
 namespace FilesPuppy.Models
 {
 
-    public class StatusConverter : IValueConverter
+    public class ServerStatusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
