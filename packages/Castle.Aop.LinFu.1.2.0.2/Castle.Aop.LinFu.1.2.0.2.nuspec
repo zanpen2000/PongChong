@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Castle.Aop.LinFu</id>
+    <version>1.2.0.2</version>
+    <authors>martin_noskovic</authors>
+    <owners>martin_noskovic</owners>
+    <licenseUrl>https://github.com/mnoskovic/Castle.Aop</licenseUrl>
+    <projectUrl>https://github.com/mnoskovic/Castle.Aop</projectUrl>
+    <iconUrl>about:blank</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Castle extension to support interceptors for types and methods</description>
+    <releaseNotes>Version 1.0</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Castle AOP Aspects Aspect oriented programming LinFu</tags>
+    <dependencies>
+      <dependency id="Castle.Core" version="3.0.0.4001" />
+      <dependency id="CommonServiceLocator" version="1.0" />
+      <dependency id="LinFu.Core" version="2.3.0.41559" />
+    </dependencies>
+  </metadata>
+</package>

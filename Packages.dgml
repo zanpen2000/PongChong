@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="DirectoryDog" Label="DirectoryDog" Category="项目" />
+    <Node Id="Castle.Aop.LinFu 1.2.0.2" Label="Castle.Aop.LinFu 1.2.0.2" Category="包" />
+    <Node Id="Castle.Core 3.0.0.4001" Label="Castle.Core 3.0.0.4001" Category="包" />
+    <Node Id="CommonServiceLocator 1.2" Label="CommonServiceLocator 1.2" Category="包" />
+    <Node Id="LinFu.Core 2.3.0.41559" Label="LinFu.Core 2.3.0.41559" Category="包" />
+    <Node Id="Prism 5.0.0" Label="Prism 5.0.0" Category="包" />
+    <Node Id="Prism.Composition 5.0.0" Label="Prism.Composition 5.0.0" Category="包" />
+    <Node Id="Prism.Interactivity 5.0.0" Label="Prism.Interactivity 5.0.0" Category="包" />
+    <Node Id="Prism.Mvvm 1.0.0" Label="Prism.Mvvm 1.0.0" Category="包" />
+    <Node Id="Prism.PubSubEvents 1.0.0" Label="Prism.PubSubEvents 1.0.0" Category="包" />
+  </Nodes>
+  <Links>
+    <Link Source="Castle.Aop.LinFu 1.2.0.2" Target="Castle.Core 3.0.0.4001" Category="程序包依赖项" />
+    <Link Source="Castle.Aop.LinFu 1.2.0.2" Target="CommonServiceLocator 1.2" Category="程序包依赖项" />
+    <Link Source="Castle.Aop.LinFu 1.2.0.2" Target="LinFu.Core 2.3.0.41559" Category="程序包依赖项" />
+    <Link Source="Prism 5.0.0" Target="Prism.Composition 5.0.0" Category="程序包依赖项" />
+    <Link Source="Prism 5.0.0" Target="Prism.Interactivity 5.0.0" Category="程序包依赖项" />
+    <Link Source="Prism 5.0.0" Target="Prism.PubSubEvents 1.0.0" Category="程序包依赖项" />
+    <Link Source="Prism 5.0.0" Target="Prism.Mvvm 1.0.0" Category="程序包依赖项" />
+    <Link Source="Prism.Composition 5.0.0" Target="CommonServiceLocator 1.2" Category="程序包依赖项" />
+    <Link Source="DirectoryDog" Target="Castle.Aop.LinFu 1.2.0.2" Category="安装的程序包" />
+    <Link Source="DirectoryDog" Target="Prism 5.0.0" Category="安装的程序包" />
+  </Links>
+  <Categories>
+    <Category Id="项目" />
+    <Category Id="包" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="项目" ValueLabel="True">
+      <Condition Expression="HasCategory('项目')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="程序包依赖项" ValueLabel="True">
+      <Condition Expression="HasCategory('程序包依赖项')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <DataBase>SQLSERVER</DataBase>
+  <ConnectionString>Data Source=192.168.2.168;Initial Catalog=AIMS;Persist Security Info=True;User ID=sa;Password=dykjhz123456@</ConnectionString>
+</config>

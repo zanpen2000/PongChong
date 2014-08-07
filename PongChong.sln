@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryDog", "DirectoryDog\DirectoryDog.csproj", "{C91844CB-AA3E-4B80-93B1-A1162B0BFF4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleApiDiscovery", "GoogleApiDiscovery\GoogleApiDiscovery.csproj", "{48F62339-0B03-4116-88F7-4A01C6FEA367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesPuppy", "FilesPuppy\FilesPuppy.csproj", "{0E4628FE-FB76-410D-8F0D-FDD717F9FD87}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515} = {9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Repository", "FilesPuppy\Librarys\Data.Repository\Data.Repository.csproj", "{83F1423B-54DB-491E-8EBD-628435408398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendPropertyLib", "FilesPuppy\Librarys\ExtendPropertyLib\ExtendPropertyLib.csproj", "{77D423C3-8419-4B9D-ACF6-0E349D75B2ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendPropertyLib.XAML", "FilesPuppy\Librarys\ExtendPropertyLib.WPF\ExtendPropertyLib.XAML.csproj", "{6946733F-A4DC-42C1-AED1-59CEC380A639}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyEntities.Persistence", "FilesPuppy\Librarys\MaxZhang.EasyEntities.Persistence\EasyEntities.Persistence.csproj", "{EDDF8CF9-94D6-4262-B550-42220813A714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceFileSystemWatcher", "WcfServiceFileSystemWatcher\WcfServiceFileSystemWatcher.csproj", "{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://27.191.128.202:9877/tfs/03archivemanager
+		SccProjectUniqueName0 = FilesPuppy\\Librarys\\Data.Repository\\Data.Repository.csproj
+		SccProjectName0 = FilesPuppy/Librarys/Data.Repository
+		SccAuxPath0 = http://27.191.128.202:9877/tfs/03archivemanager
+		SccLocalPath0 = FilesPuppy\\Librarys\\Data.Repository
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = FilesPuppy\\Librarys\\ExtendPropertyLib\\ExtendPropertyLib.csproj
+		SccProjectName1 = FilesPuppy/Librarys/ExtendPropertyLib
+		SccAuxPath1 = http://27.191.128.202:9877/tfs/03archivemanager
+		SccLocalPath1 = FilesPuppy\\Librarys\\ExtendPropertyLib
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = FilesPuppy\\Librarys\\ExtendPropertyLib.WPF\\ExtendPropertyLib.XAML.csproj
+		SccProjectName2 = FilesPuppy/Librarys/ExtendPropertyLib.WPF
+		SccAuxPath2 = http://27.191.128.202:9877/tfs/03archivemanager
+		SccLocalPath2 = FilesPuppy\\Librarys\\ExtendPropertyLib.WPF
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = FilesPuppy\\Librarys\\MaxZhang.EasyEntities.Persistence\\EasyEntities.Persistence.csproj
+		SccProjectName3 = FilesPuppy/Librarys/MaxZhang.EasyEntities.Persistence
+		SccAuxPath3 = http://27.191.128.202:9877/tfs/03archivemanager
+		SccLocalPath3 = FilesPuppy\\Librarys\\MaxZhang.EasyEntities.Persistence
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C91844CB-AA3E-4B80-93B1-A1162B0BFF4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91844CB-AA3E-4B80-93B1-A1162B0BFF4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91844CB-AA3E-4B80-93B1-A1162B0BFF4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91844CB-AA3E-4B80-93B1-A1162B0BFF4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48F62339-0B03-4116-88F7-4A01C6FEA367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48F62339-0B03-4116-88F7-4A01C6FEA367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48F62339-0B03-4116-88F7-4A01C6FEA367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48F62339-0B03-4116-88F7-4A01C6FEA367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E4628FE-FB76-410D-8F0D-FDD717F9FD87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4628FE-FB76-410D-8F0D-FDD717F9FD87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E4628FE-FB76-410D-8F0D-FDD717F9FD87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4628FE-FB76-410D-8F0D-FDD717F9FD87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F1423B-54DB-491E-8EBD-628435408398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F1423B-54DB-491E-8EBD-628435408398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F1423B-54DB-491E-8EBD-628435408398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F1423B-54DB-491E-8EBD-628435408398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77D423C3-8419-4B9D-ACF6-0E349D75B2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77D423C3-8419-4B9D-ACF6-0E349D75B2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77D423C3-8419-4B9D-ACF6-0E349D75B2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77D423C3-8419-4B9D-ACF6-0E349D75B2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6946733F-A4DC-42C1-AED1-59CEC380A639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6946733F-A4DC-42C1-AED1-59CEC380A639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6946733F-A4DC-42C1-AED1-59CEC380A639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6946733F-A4DC-42C1-AED1-59CEC380A639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDDF8CF9-94D6-4262-B550-42220813A714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDDF8CF9-94D6-4262-B550-42220813A714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDDF8CF9-94D6-4262-B550-42220813A714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDDF8CF9-94D6-4262-B550-42220813A714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
