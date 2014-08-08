@@ -40,7 +40,7 @@ namespace WcfServiceFileSystemWatcher
             return access.GetLastFiles();
         }
 
-        public IEnumerable<string> GetLastFiles(string root)
+        public IEnumerable<string> GetLastFilesByDirectory(string root)
         {
             return access.GetLastFiles(root);
         }
@@ -72,7 +72,7 @@ namespace WcfServiceFileSystemWatcher
             access.AppendFiles(p, files);
         }
 
-        public void ScanDirectory(IEnumerable<string> dirs)
+        public void ScanDirectorys(IEnumerable<string> dirs)
         {
             foreach (var dir in dirs)
             {

@@ -11,7 +11,7 @@ namespace WcfServiceFileSystemWatcher.Models
         {
             List<string> files = new List<string>();
 
-            var allfiles = System.IO.Directory.GetFiles("", "", System.IO.SearchOption.AllDirectories);
+            var allfiles = System.IO.Directory.GetFiles(dirname, "*", System.IO.SearchOption.AllDirectories);
 
             files.AddRange(allfiles.TakeWhile(f => { return System.IO.File.Exists(f); }));
 

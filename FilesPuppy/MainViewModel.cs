@@ -50,6 +50,8 @@ namespace FilesPuppy
         public RelayCommand OnWatchStartCommand { get; set; }
         public RelayCommand OnWatchStopCommand { get; set; }
 
+        public RelayCommand GetAllCommand { get; set; }
+
         /// <summary>
         /// 全目录扫描
         /// </summary>
@@ -66,14 +68,24 @@ namespace FilesPuppy
             SettingCommand = new RelayCommand(ShowSettingView);
             ExitCommand = new RelayCommand(AppExit, CanAppExit);
             StartScanCommand = new RelayCommand(ScanAll);
+            GetAllCommand = new RelayCommand(GetAllTesting);
 
             this.PropertyChanged += MainViewModel_PropertyChanged;
 
         }
 
+        private void GetAllTesting()
+        {
+            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+            {
+                w.ScanDirectory("G:\\");
+            });
+            iw.ShowMessage("done!");
+        }
+
         private void ScanAll()
         {
-            
+
             ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
             {
                 w.ScanDirectory("");

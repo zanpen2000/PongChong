@@ -22,7 +22,7 @@ namespace WcfServiceFileSystemWatcher
         IEnumerable<string> GetLastFiles();
 
         [OperationContract]
-        IEnumerable<string> GetLastFiles(string root);
+        IEnumerable<string> GetLastFilesByDirectory(string root);
 
 
         [OperationContract]
@@ -41,7 +41,7 @@ namespace WcfServiceFileSystemWatcher
         void ScanDirectory(string p);
 
         [OperationContract]
-        void ScanDirectory(IEnumerable<string> dirs);
+        void ScanDirectorys(IEnumerable<string> dirs);
 
 
     }
