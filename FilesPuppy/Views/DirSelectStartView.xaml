@@ -4,7 +4,7 @@
         Height="300" Width="400">
     <UserControl.Resources>
         <DataTemplate  x:Key="listItemTemplate">
-            <CheckBox Content="{Binding Fullpath}" IsChecked="{Binding Selected}"/>
+            <CheckBox Content="{Binding Path}" IsChecked="{Binding Selected}"/>
         </DataTemplate>
         <Style TargetType="CheckBox">
             <Setter Property="FontSize" Value="14" />

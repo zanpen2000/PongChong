@@ -14,21 +14,22 @@ namespace WcfServiceFileSystemWatcher.database
             oledb.Url = PublicUdl.connMdbUDL;
         }
 
-        public bool AppendFiles(IEnumerable<string> files)
+        public bool AppendFiles(string root, IEnumerable<string> files)
         {
             bool result = false;
 
-            string insql = @"insert into scanedfiles(fullpath,scantime,got) values(@path,@stime,@got)";
+            string insql = @"insert into scanedfiles(rootpath,fullpath,scantime,got) values(@root,@path,@stime,@got)";
 
             foreach (string file in files)
             {
                 if (FileExists(file)) continue;// 文件存在就不添加了
 
-                OleDbParameter[] parameters = new OleDbParameter[3] 
+                OleDbParameter[] parameters = new OleDbParameter[4] 
                 { 
-                new OleDbParameter("@path",file),
-                new OleDbParameter("@stime",DateTime.Now.ToString()),
-                new OleDbParameter("@got",false)
+                    new OleDbParameter("@root",root),
+                    new OleDbParameter("@path",file),
+                    new OleDbParameter("@stime",DateTime.Now.ToString()),
+                    new OleDbParameter("@got",false)
                 
                 };
 
@@ -42,20 +43,21 @@ namespace WcfServiceFileSystemWatcher.database
         {
             if (!FileExists(file)) return true;
 
-            string sql = "delete from scanedfiles where fullpath='"+file+"'";
+            string sql = "delete from scanedfiles where fullpath='" + file + "'";
 
             return oledb.OleDbExecute(sql);
         }
 
 
-        public bool AppendFile(string file)
+        public bool AppendFile(string root, string file)
         {
             if (FileExists(file)) return true;// 文件存在就不添加了
 
-            string insql = @"insert into scanedfiles(fullpath,scantime,got) values(@path,@stime,@got)";
+            string insql = @"insert into scanedfiles(rootpath, fullpath,scantime,got) values(@root,@path,@stime,@got)";
 
-            OleDbParameter[] parameters = new OleDbParameter[3] 
+            OleDbParameter[] parameters = new OleDbParameter[4] 
                 { 
+                new OleDbParameter("@root",root),
                 new OleDbParameter("@path",file),
                 new OleDbParameter("@stime",DateTime.Now.ToString()),
                 new OleDbParameter("@got",false)
@@ -69,7 +71,7 @@ namespace WcfServiceFileSystemWatcher.database
         public bool FileExists(string filename)
         {
             DataSet ds;
-            if (oledb.GetDataSet("select * from scanedfiles where fullpath='"+filename+"'", out ds))
+            if (oledb.GetDataSet("select * from scanedfiles where fullpath='" + filename + "'", out ds))
             {
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     return true;
@@ -86,14 +88,14 @@ namespace WcfServiceFileSystemWatcher.database
             return true;
         }
 
-        public bool InsertGetFileTimeLog()
+        public bool InsertGetFileTimeLog(string root)
         {
-            string insql = @"insert into GetFileTimeLog(getTime) values(@gtime)";
+            string insql = @"insert into GetFileTimeLog(getTime,rootpath) values(@gtime,@root)";
 
-            OleDbParameter[] parameters = new OleDbParameter[1] 
+            OleDbParameter[] parameters = new OleDbParameter[2] 
                 { 
+                new OleDbParameter("@root",root),
                 new OleDbParameter("@gtime",DateTime.Now.ToString())
-                
                 };
 
             if (!oledb.OleDbExecute(insql))
@@ -106,6 +108,23 @@ namespace WcfServiceFileSystemWatcher.database
             List<string> files = new List<string>();
             DataSet ds;
             if (oledb.GetDataSet("select * from ScanedFiles where got = false", out ds))
+            {
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        files.Add(ds.Tables[0].Rows[i]["fullpath"].ToString());
+                    }
+                }
+            }
+            return files;
+        }
+
+        public IEnumerable<string> GetLastFiles(string root)
+        {
+            List<string> files = new List<string>();
+            DataSet ds;
+            if (oledb.GetDataSet("select * from ScanedFiles where got = false and rootpath='" + root + "'", out ds))
             {
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {

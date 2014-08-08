@@ -22,16 +22,28 @@ namespace WcfServiceFileSystemWatcher
         IEnumerable<string> GetLastFiles();
 
         [OperationContract]
-        bool AddFile(string filepath);
+        IEnumerable<string> GetLastFiles(string root);
+
 
         [OperationContract]
-        bool AddFiles(IEnumerable<string> filepaths);
+        bool AddFile(string root, string filepath);
 
         [OperationContract]
-        bool InsertGetFileTimeLog();
+        bool AddFiles(string root, IEnumerable<string> filepaths);
+
+        [OperationContract]
+        bool InsertGetFileTimeLog(string root);
 
         [OperationContract]
         bool DeleteFile(string file);
+
+        [OperationContract]
+        void ScanDirectory(string p);
+
+        [OperationContract]
+        void ScanDirectory(IEnumerable<string> dirs);
+
+
     }
 
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。

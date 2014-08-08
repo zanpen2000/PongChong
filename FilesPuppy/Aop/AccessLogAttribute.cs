@@ -33,12 +33,12 @@ namespace FilesPuppy.Aop
                     if (e.ChangeType == WatcherChangeTypes.Created)
                     {
                         filename = e.FullPath;
-                     
+
                         if (File.Exists(filename))
                         {
                             ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
                             {
-                                w.AddFile(filename);
+                                w.AddFile("", filename);
                             });
                         }
 
@@ -51,7 +51,7 @@ namespace FilesPuppy.Aop
                         {
                             ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
                             {
-                                w.AddFile(filename);
+                                w.AddFile("", filename);
                             });
                         }
                     }
@@ -76,6 +76,6 @@ namespace FilesPuppy.Aop
             }
         }
 
-      
+
     }
 }

@@ -9,6 +9,7 @@ using System.ComponentModel.Composition;
 using System.ServiceModel;
 using System.Windows.Input;
 using System.Windows.Threading;
+using FilesPuppy.Layers;
 
 
 namespace FilesPuppy
@@ -24,7 +25,6 @@ namespace FilesPuppy
         /// </summary>
         public static ExtendProperty StartedProperty = RegisterProperty<MainViewModel>(v => v.Started);
         public bool Started { set { SetValue(StartedProperty, value); } get { return (bool)GetValue(StartedProperty); } }
-
 
         /// <summary>
         /// 监视状态
@@ -50,6 +50,11 @@ namespace FilesPuppy
         public RelayCommand OnWatchStartCommand { get; set; }
         public RelayCommand OnWatchStopCommand { get; set; }
 
+        /// <summary>
+        /// 全目录扫描
+        /// </summary>
+        public RelayCommand StartScanCommand { get; set; }
+
         public override void OnDoCreate(ExtendPropertyLib.ExtendObject item, params object[] args)
         {
             base.OnDoCreate(item, args);
@@ -60,9 +65,29 @@ namespace FilesPuppy
             OnWatchStopCommand = new RelayCommand(SetWatchStop, CanSetWatchStop);
             SettingCommand = new RelayCommand(ShowSettingView);
             ExitCommand = new RelayCommand(AppExit, CanAppExit);
+            StartScanCommand = new RelayCommand(ScanAll);
 
             this.PropertyChanged += MainViewModel_PropertyChanged;
 
+        }
+
+        private void ScanAll()
+        {
+            
+            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+            {
+                w.ScanDirectory("");
+            });
+        }
+
+        private bool CanSetWatchStop()
+        {
+            return WatcherLocator.Watchers.Select(t => t.Watched == true).Count() > 0;
+        }
+
+        private bool CanSetWatchStart()
+        {
+            return WatcherLocator.Watchers.Select(t => t.Watched == false).Count() > 0;
         }
 
         private void SetWatchStop()
@@ -76,27 +101,18 @@ namespace FilesPuppy
                 {
                     foreach (var item in WatcherLocator.Watchers)
                     {
-                        SetLog(item.Key.ToString() + " 开始监视");
-                        item.Value.OnCreated -= Value_OnCreated;
-                        item.Value.OnDeleted -= Value_OnDeleted;
-                        item.Value.OnChanged -= Value_OnChanged;
-                        item.Value.OnRenamed -= Value_OnRenamed;
-                        item.Value.Stop();
+                        if (item.Watched && item.Selected)
+                        {
+                            SetLog("停止监视 " + item.Path);
+                            item.OnCreated -= Value_OnCreated;
+                            item.OnDeleted -= Value_OnDeleted;
+                            item.OnChanged -= Value_OnChanged;
+                            item.OnRenamed -= Value_OnRenamed;
+                            item.Stop();
+                        }
                     }
                 }
             }
-        }
-
-        private bool CanSetWatchStop()
-        {
-            return true;
-            //return WatcherLocator.Watchers.Values.Select(t => t.Watched == true).Count() > 0;
-        }
-
-        private bool CanSetWatchStart()
-        {
-            return true;
-            //return WatcherLocator.Watchers.Values.Select(t => t.Watched == false).Count() > 0;
         }
 
         private void SetWatchStart()
@@ -110,12 +126,15 @@ namespace FilesPuppy
                 {
                     foreach (var item in WatcherLocator.Watchers)
                     {
-                        SetLog(item.Key.ToString() + " 开始监视");
-                        item.Value.OnCreated += Value_OnCreated;
-                        item.Value.OnDeleted += Value_OnDeleted;
-                        item.Value.OnChanged += Value_OnChanged;
-                        item.Value.OnRenamed += Value_OnRenamed;
-                        item.Value.Start();
+                        if (!item.Watched && item.Selected)
+                        {
+                            SetLog("开始监视 " + item.Path);
+                            item.OnCreated += Value_OnCreated;
+                            item.OnDeleted += Value_OnDeleted;
+                            item.OnChanged += Value_OnChanged;
+                            item.OnRenamed += Value_OnRenamed;
+                            item.Start();
+                        }
                     }
                 }
             }
@@ -207,12 +226,12 @@ namespace FilesPuppy
 
         private void host_Closed(object sender, EventArgs e)
         {
-            SetLog("服务已关闭");
+            SetLog("传输服务已关闭");
         }
 
         private void host_Opened(object sender, EventArgs e)
         {
-            SetLog("服务已启动");
+            SetLog("传输服务已启动");
 
         }
 

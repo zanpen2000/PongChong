@@ -60,8 +60,8 @@ namespace FilesPuppy.Views
 
         private bool Contains(object obj)
         {
-            var o = (obj as Dictionary<string, WatchPuppy>);
-            return o.Values.Select(s => s.Selected == OnOff).Count() > 0;
+            var o = (obj as WatchPuppy);
+            return o.Watched == OnOff;
         }
 
         private void CancelExecute()
@@ -78,11 +78,11 @@ namespace FilesPuppy.Views
         {
             DirsView.Filter = null;
 
-            DirsView.Filter = (obj) => { return (obj as Dictionary<string, WatchPuppy>).Values.Select(s => s.Selected == OnOff).Count() > 0; };
+            DirsView.Filter = (obj) => { return (obj as WatchPuppy).Selected == OnOff; };
 
-            foreach (KeyValuePair<string,WatchPuppy> watch in DirsView)
+            foreach (WatchPuppy watch in DirsView)
             {
-                watch.Value.Selected = true;
+                watch.Selected = OnOff;
             }
 
             this.TryOK();

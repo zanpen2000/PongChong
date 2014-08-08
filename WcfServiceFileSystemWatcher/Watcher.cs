@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using WcfServiceFileSystemWatcher.Models;
 
 namespace WcfServiceFileSystemWatcher
 {
@@ -39,24 +40,44 @@ namespace WcfServiceFileSystemWatcher
             return access.GetLastFiles();
         }
 
+        public IEnumerable<string> GetLastFiles(string root)
+        {
+            return access.GetLastFiles(root);
+        }
+
         public bool DeleteFile(string file)
         {
             return access.DeleteFile(file);
         }
 
-        public bool AddFile(string filepath)
+        public bool AddFile(string root, string filepath)
         {
-            return access.AppendFile(filepath);
+            return access.AppendFile(root, filepath);
         }
 
-        public bool AddFiles(IEnumerable<string> filepaths)
+        public bool AddFiles(string root, IEnumerable<string> filepaths)
         {
-            return access.AppendFiles(filepaths);
+            return access.AppendFiles(root, filepaths);
         }
 
-        public bool InsertGetFileTimeLog()
+        public bool InsertGetFileTimeLog(string root)
         {
-            return access.InsertGetFileTimeLog();
+            return access.InsertGetFileTimeLog(root);
+        }
+
+
+        public void ScanDirectory(string p)
+        {
+            var files = Scanner.ScanDirectory(p);
+            access.AppendFiles(p, files);
+        }
+
+        public void ScanDirectory(IEnumerable<string> dirs)
+        {
+            foreach (var dir in dirs)
+            {
+                this.ScanDirectory(dir);
+            }   
         }
     }
 }
