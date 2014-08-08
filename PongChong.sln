@@ -22,32 +22,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyEntities.Persistence", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceFileSystemWatcher", "WcfServiceFileSystemWatcher\WcfServiceFileSystemWatcher.csproj", "{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://27.191.128.202:9877/tfs/03archivemanager
-		SccProjectUniqueName0 = FilesPuppy\\Librarys\\Data.Repository\\Data.Repository.csproj
-		SccProjectName0 = FilesPuppy/Librarys/Data.Repository
-		SccAuxPath0 = http://27.191.128.202:9877/tfs/03archivemanager
-		SccLocalPath0 = FilesPuppy\\Librarys\\Data.Repository
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = FilesPuppy\\Librarys\\ExtendPropertyLib\\ExtendPropertyLib.csproj
-		SccProjectName1 = FilesPuppy/Librarys/ExtendPropertyLib
-		SccAuxPath1 = http://27.191.128.202:9877/tfs/03archivemanager
-		SccLocalPath1 = FilesPuppy\\Librarys\\ExtendPropertyLib
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = FilesPuppy\\Librarys\\ExtendPropertyLib.WPF\\ExtendPropertyLib.XAML.csproj
-		SccProjectName2 = FilesPuppy/Librarys/ExtendPropertyLib.WPF
-		SccAuxPath2 = http://27.191.128.202:9877/tfs/03archivemanager
-		SccLocalPath2 = FilesPuppy\\Librarys\\ExtendPropertyLib.WPF
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = FilesPuppy\\Librarys\\MaxZhang.EasyEntities.Persistence\\EasyEntities.Persistence.csproj
-		SccProjectName3 = FilesPuppy/Librarys/MaxZhang.EasyEntities.Persistence
-		SccAuxPath3 = http://27.191.128.202:9877/tfs/03archivemanager
-		SccLocalPath3 = FilesPuppy\\Librarys\\MaxZhang.EasyEntities.Persistence
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -85,6 +62,10 @@ Global
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
