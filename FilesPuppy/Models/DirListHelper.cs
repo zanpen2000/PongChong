@@ -23,5 +23,16 @@ namespace FilesPuppy.Models
         {
             System.IO.File.WriteAllLines(_dirFilename, _dirlist);
         }
+
+        public static List<string> ScanDirectory(string dirname)
+        {
+            List<string> files = new List<string>();
+
+            var allfiles = System.IO.Directory.GetFiles("", "", System.IO.SearchOption.AllDirectories);
+
+            files.AddRange(allfiles.TakeWhile(f => { return System.IO.File.Exists(f); }));
+
+            return files;
+        }
     }
 }
