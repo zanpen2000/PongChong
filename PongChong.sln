@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyEntities.Persistence", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceFileSystemWatcher", "WcfServiceFileSystemWatcher\WcfServiceFileSystemWatcher.csproj", "{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,10 +60,6 @@ Global
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A4773F5-1A1C-41E1-A3EA-E4EEDFD8E515}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF190D48-8B9A-49C7-9277-59E9D1B2CF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

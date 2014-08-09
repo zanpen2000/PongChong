@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Watcher" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfServiceFileSystemWatcher" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IWatcher_GetData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetData" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetDataUsingDataContract_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetDataUsingDataContract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetLastFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastFiles" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetLastFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastFilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetLastFilesByDirectory_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastFilesByDirectory" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetLastFilesByDirectory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastFilesByDirectoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_AddFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFile" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_AddFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_AddFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddFiles" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_AddFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddFilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_InsertGetFileTimeLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGetFileTimeLog" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_InsertGetFileTimeLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertGetFileTimeLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_DeleteFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFile" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_DeleteFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_ScanDirectory_InputMessage">
+    <wsdl:part name="parameters" element="tns:ScanDirectory" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_ScanDirectory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ScanDirectoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_ScanDirectorys_InputMessage">
+    <wsdl:part name="parameters" element="tns:ScanDirectorys" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_ScanDirectorys_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ScanDirectorysResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFiles" />
+  </wsdl:message>
+  <wsdl:message name="IWatcher_GetFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFilesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IWatcher">
+    <wsdl:operation name="GetData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/GetData" message="tns:IWatcher_GetData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/GetDataResponse" message="tns:IWatcher_GetData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/GetDataUsingDataContract" message="tns:IWatcher_GetDataUsingDataContract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/GetDataUsingDataContractResponse" message="tns:IWatcher_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/GetLastFiles" message="tns:IWatcher_GetLastFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/GetLastFilesResponse" message="tns:IWatcher_GetLastFiles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastFilesByDirectory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/GetLastFilesByDirectory" message="tns:IWatcher_GetLastFilesByDirectory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/GetLastFilesByDirectoryResponse" message="tns:IWatcher_GetLastFilesByDirectory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/AddFile" message="tns:IWatcher_AddFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/AddFileResponse" message="tns:IWatcher_AddFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/AddFiles" message="tns:IWatcher_AddFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/AddFilesResponse" message="tns:IWatcher_AddFiles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertGetFileTimeLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/InsertGetFileTimeLog" message="tns:IWatcher_InsertGetFileTimeLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/InsertGetFileTimeLogResponse" message="tns:IWatcher_InsertGetFileTimeLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/DeleteFile" message="tns:IWatcher_DeleteFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/DeleteFileResponse" message="tns:IWatcher_DeleteFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ScanDirectory">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/ScanDirectory" message="tns:IWatcher_ScanDirectory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/ScanDirectoryResponse" message="tns:IWatcher_ScanDirectory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ScanDirectorys">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/ScanDirectorys" message="tns:IWatcher_ScanDirectorys_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/ScanDirectorysResponse" message="tns:IWatcher_ScanDirectorys_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWatcher/GetFiles" message="tns:IWatcher_GetFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWatcher/GetFilesResponse" message="tns:IWatcher_GetFiles_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IWatcher" type="tns:IWatcher">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetData">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/GetData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDataUsingDataContract">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastFiles">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/GetLastFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastFilesByDirectory">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/GetLastFilesByDirectory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFile">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/AddFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFiles">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/AddFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertGetFileTimeLog">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/InsertGetFileTimeLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ScanDirectory">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/ScanDirectory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ScanDirectorys">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/ScanDirectorys" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFiles">
+      <soap:operation soapAction="http://tempuri.org/IWatcher/GetFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Watcher">
+    <wsdl:port name="BasicHttpBinding_IWatcher" binding="tns:BasicHttpBinding_IWatcher">
+      <soap:address location="http://localhost:8733/WcfServiceFileSystemWatcher/Watcher/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

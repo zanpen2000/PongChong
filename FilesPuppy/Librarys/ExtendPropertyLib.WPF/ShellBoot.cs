@@ -20,10 +20,10 @@ namespace ExtendPropertyLib.WPF
 
         public ShellBooter()
         {
-         
+
             PrepareApplication();
             Config();
-         
+
         }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace ExtendPropertyLib.WPF
         protected virtual void PrepareApplication()
         {
             Application.Current.Startup += OnStartup;
-            
+
             Application.Current.Exit += OnExit;
 
-         
+
 
 
         }
@@ -53,7 +53,7 @@ namespace ExtendPropertyLib.WPF
                    , new DirectoryCatalog(AppDomain.CurrentDomain.BaseDirectory));
                 //string addinsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Addins");
                 //if(Directory.Exists(addinsPath))
-                    //catalog.Catalogs.Add(new DirectoryCatalog(addinsPath));
+                //catalog.Catalogs.Add(new DirectoryCatalog(addinsPath));
 
 
                 container = new CompositionContainer(catalog);
@@ -88,8 +88,9 @@ namespace ExtendPropertyLib.WPF
         /// Override this to provide an IoC specific implementation.
         /// </summary>
         /// <param name="instance">The instance to perform injection on.</param>
-        public virtual void BuildUp(object instance) {
-          
+        public virtual void BuildUp(object instance)
+        {
+
             container.SatisfyImportsOnce(instance);
         }
 
@@ -100,7 +101,8 @@ namespace ExtendPropertyLib.WPF
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The args.</param>
-        protected virtual void OnStartup(object sender, StartupEventArgs e) {
+        protected virtual void OnStartup(object sender, StartupEventArgs e)
+        {
             try
             {
                 DisplayRootView();
@@ -113,36 +115,39 @@ namespace ExtendPropertyLib.WPF
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event args.</param>
-        protected virtual void OnExit(object sender, EventArgs e) { 
-        
-        
+        protected virtual void OnExit(object sender, EventArgs e)
+        {
+
+
         }
 
 
         public void DisplayRootView()
         {
-            try{
+            try
+            {
                 var shell = container.GetExport<IShell>().Value;
 
                 var obj = shell as ViewModelBase;
                 //if (IsProxy)
                 //    obj = DynamicProxy.CreateProxy<ViewModelBase>(obj);
 
-                 obj.OnDoCreate(obj, null);
+                obj.OnDoCreate(obj, null);
 
                 BuildUp(obj);
-           
+
                 IWindowManager wm = container.GetExport<IWindowManager>().Value;
                 wm.Show(obj);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"错误");
+
+                MessageBox.Show(ex.TargetSite.Name + ":" + ex.Message, "错误");
             }
             //IWindowManager wm = new WindowManager();
             //wm.Show(shell);
         }
-        
+
 
     }
 }

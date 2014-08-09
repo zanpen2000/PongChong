@@ -47,10 +47,7 @@
     <Reference Include="LinFu.Core">
       <HintPath>..\packages\LinFu.Core.2.3.0.41559\lib\net35\LinFu.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\packages\Windows7APICodePack.1.0.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -83,6 +80,7 @@
     <Compile Include="Aop\AOPAttribute.cs" />
     <Compile Include="Aop\InterceptorProxy.cs" />
     <Compile Include="Aop\LogAttribute.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Layers\AppSettings.cs" />
     <Compile Include="Layers\DistributedComputingServiceClient.cs" />
     <Compile Include="Layers\ServiceCaller.cs" />
@@ -94,6 +92,11 @@
     <Compile Include="Models\WatcherProcess.cs" />
     <Compile Include="Models\WatchPuppy.cs" />
     <Compile Include="Models\WatchStatusConverter.cs" />
+    <Compile Include="Service References\WatcherServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Views\DirSelectStartView.xaml.cs">
       <DependentUpon>DirSelectStartView.xaml</DependentUpon>
     </Compile>
@@ -143,15 +146,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\WcfServiceFileSystemWatcher\App.config">
+      <Link>App.config</Link>
+    </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\WcfServiceFileSystemWatcher.CompositeType.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
+    <None Include="Service References\WatcherServiceReference\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WatcherServiceReference\service.wsdl" />
+    <None Include="Service References\WatcherServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WatcherServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\WatcherServiceReference\WcfServiceFileSystemWatcher.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -175,6 +190,24 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\WatcherServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WatcherServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WatcherServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\WatcherServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

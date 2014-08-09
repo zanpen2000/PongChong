@@ -14,11 +14,11 @@ namespace WcfServiceFileSystemWatcher.database
             oledb.Url = PublicUdl.connMdbUDL;
         }
 
-        public bool AppendFiles(string root, IEnumerable<string> files)
+        public int AppendFiles(string root, IEnumerable<string> files)
         {
-            bool result = false;
-
             string insql = @"insert into scanedfiles(rootpath,fullpath,scantime,got) values(@root,@path,@stime,@got)";
+
+            List<OleDbParameter[]> paras = new List<OleDbParameter[]>();
 
             foreach (string file in files)
             {
@@ -30,13 +30,12 @@ namespace WcfServiceFileSystemWatcher.database
                     new OleDbParameter("@path",file),
                     new OleDbParameter("@stime",DateTime.Now.ToString()),
                     new OleDbParameter("@got",false)
-                
                 };
 
-                result &= oledb.OleDbExecute(insql, parameters);
+                paras.Add(parameters);
             }
 
-            return result;
+            return oledb.OleDbExecuteMany(insql, paras);
         }
 
         public bool DeleteFile(string file)

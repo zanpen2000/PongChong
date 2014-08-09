@@ -110,6 +110,36 @@ namespace WcfServiceFileSystemWatcher.database
             }
         }
 
+        public int OleDbExecuteMany(string command, List<OleDbParameter[]> parameters)
+        {
+            int result = 0;
+
+            try
+            {
+                using (OleDbConnection oldCon = new OleDbConnection(Url))
+                {
+                    if (oldCon.State == ConnectionState.Closed)
+                        oldCon.Open();
+
+                    OleDbCommand oleCmd = new OleDbCommand(command, oldCon);
+
+                    parameters.ForEach((p) =>
+                    {
+                        oleCmd.Parameters.AddRange(p);
+                        oleCmd.CommandTimeout = 0;
+                        result += oleCmd.ExecuteNonQuery();
+                    });
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Error = ex.Message;
+                return result;
+            }
+        }
+
         public object GetSingle(string command)
         {
             try
@@ -229,7 +259,7 @@ namespace WcfServiceFileSystemWatcher.database
             else
                 return false;
 
-          
+
         }
 
         /// <summary>
@@ -295,8 +325,8 @@ namespace WcfServiceFileSystemWatcher.database
             return affect;
         }
 
-       
-      
+
+
 
     }
 }
