@@ -8,7 +8,9 @@ namespace WcfServiceFileSystemWatcher.Models
 {
     public class ScannedFilesModel
     {
-        public int id { get; set; }
+        public string rootpath { get; set; }
+
+        public string filehash { get; set; }
         public string fullpath { get; set; }
         public string scantime { get; set; }
         public bool got { get; set; }

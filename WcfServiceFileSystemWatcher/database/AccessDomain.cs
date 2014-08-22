@@ -136,5 +136,42 @@ namespace WcfServiceFileSystemWatcher.database
             }
             return files;
         }
+
+        internal bool AppendFiles(string root, List<Models.ScannedFilesModel> files)
+        {
+            bool result = false;
+
+            string insql = @"insert into scanedfiles(rootpath,filehash,fullpath,scantime,got) values(@root,@filehash,@path,@stime,@got)";
+
+            foreach (var file in files)
+            {
+                if (FileExists(file.fullpath))
+                {
+                    UpdateFile(file);
+                }
+
+                OleDbParameter[] parameters = new OleDbParameter[5] 
+                { 
+                    new OleDbParameter("@root",file.rootpath),
+                    new OleDbParameter("@filehash",file.filehash),
+                    new OleDbParameter("@path",file.fullpath),
+                    new OleDbParameter("@stime",file.scantime),
+                    new OleDbParameter("@got",false)
+                
+                };
+
+                result &= oledb.OleDbExecute(insql, parameters);
+            }
+
+            return result;
+        }
+
+        public bool UpdateFile(Models.ScannedFilesModel file)
+        {
+            string update = "update scanedfiles  set filehash=" + file.filehash + ", `got`= " + file.got + " ,`gottime`='" + file.gottime + "' where `fullpath`='" + file.fullpath + "'";
+            if (!oledb.OleDbExecute(update))
+                return false;
+            return true;
+        }
     }
 }

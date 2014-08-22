@@ -68,6 +68,8 @@
     <Compile Include="database\OledbHelper.cs" />
     <Compile Include="database\PublicUdl.cs" />
     <Compile Include="IWatcher.cs" />
+    <Compile Include="Models\HashCompute.cs" />
+    <Compile Include="Models\HashVariables.cs" />
     <Compile Include="Models\Scanner.cs" />
     <Compile Include="Models\ScannedFilesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
