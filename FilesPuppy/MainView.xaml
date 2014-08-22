@@ -44,7 +44,7 @@
                 Command="{Binding OnServiceCommand}" Grid.Column="0"/>
             <Button Content="开始监视" Command="{Binding OnWatchStartCommand}" Grid.Column="1"/>
             <Button Content="停止监视" Command="{Binding OnWatchStopCommand}" Grid.Column="2"/>
-            <Button Content="Testing" Command="{Binding GetAllCommand}" Grid.Column="3"/>
+            <Button Content="GetAllFiles" Command="{Binding GetAllCommand}" Grid.Column="3"/>
         </Grid>
     </Grid>
 </Window>

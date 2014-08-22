@@ -42,20 +42,15 @@ namespace FilesPuppy
         /// WCF主机
         /// 
         /// </summary>
-        public ServiceHost Host { get; private set; }
+        public MyServiceHost Host { get; private set; }
 
         public RelayCommand OnServiceCommand { get; set; }
         public RelayCommand SettingCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
         public RelayCommand OnWatchStartCommand { get; set; }
         public RelayCommand OnWatchStopCommand { get; set; }
-
         public RelayCommand GetAllCommand { get; set; }
 
-        /// <summary>
-        /// 全目录扫描
-        /// </summary>
-        public RelayCommand StartScanCommand { get; set; }
 
         public override void OnDoCreate(ExtendPropertyLib.ExtendObject item, params object[] args)
         {
@@ -67,7 +62,6 @@ namespace FilesPuppy
             OnWatchStopCommand = new RelayCommand(SetWatchStop, CanSetWatchStop);
             SettingCommand = new RelayCommand(ShowSettingView);
             ExitCommand = new RelayCommand(AppExit, CanAppExit);
-            StartScanCommand = new RelayCommand(ScanAll);
             GetAllCommand = new RelayCommand(GetAllTesting);
 
             this.PropertyChanged += MainViewModel_PropertyChanged;
@@ -76,20 +70,28 @@ namespace FilesPuppy
 
         private void GetAllTesting()
         {
-            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
-            {
-                w.ScanDirectory("G:\\");
-            });
-            iw.ShowMessage("done!");
-        }
+            SetLog("getting files...");
 
-        private void ScanAll()
-        {
+            var channel = new ChannelFactory<WcfServiceFileSystemWatcher.IWatcher>("WcfServiceFileSystemWatcher.Watcher");
+            var proxy = channel.CreateChannel();
+            var files = proxy.GetFiles(@"G:\SourceCode");
+            SetLog(files.Count().ToString());
 
-            ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
-            {
-                w.ScanDirectory("");
-            });
+
+            //using (WatcherServiceReference.WatcherClient client = new WatcherServiceReference.WatcherClient())
+            //{
+                
+            //    var files = client.GetFiles(@"G:\SourceCode");
+            //    SetLog(files.Count().ToString());
+            //}
+
+
+            //ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
+            //{
+            //    var files = w.GetFiles(@"G:\SourceCode");
+            //    SetLog(files.Count.ToString());
+            //});
+
         }
 
         private bool CanSetWatchStop()
@@ -212,7 +214,8 @@ namespace FilesPuppy
                 }
                 else
                 {
-                    Host = new ServiceHost(typeof(WcfServiceFileSystemWatcher.Watcher));
+                    Host = new MyServiceHost(typeof(WcfServiceFileSystemWatcher.Watcher));
+
                     Host.Opened += host_Opened;
                     Host.Closed += host_Closed;
                     Host.UnknownMessageReceived += host_UnknownMessageReceived;

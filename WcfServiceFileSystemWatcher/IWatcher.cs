@@ -29,7 +29,7 @@ namespace WcfServiceFileSystemWatcher
         bool AddFile(string root, string filepath);
 
         [OperationContract]
-        bool AddFiles(string root, IEnumerable<string> filepaths);
+        int AddFiles(string root, IEnumerable<string> filepaths);
 
         [OperationContract]
         bool InsertGetFileTimeLog(string root);
@@ -43,6 +43,8 @@ namespace WcfServiceFileSystemWatcher
         [OperationContract]
         void ScanDirectorys(IEnumerable<string> dirs);
 
+        [OperationContract]
+        List<string> GetFiles(string dirname);
 
     }
 

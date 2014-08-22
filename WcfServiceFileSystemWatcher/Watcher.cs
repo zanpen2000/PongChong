@@ -55,7 +55,7 @@ namespace WcfServiceFileSystemWatcher
             return access.AppendFile(root, filepath);
         }
 
-        public bool AddFiles(string root, IEnumerable<string> filepaths)
+        public int AddFiles(string root, IEnumerable<string> filepaths)
         {
             return access.AppendFiles(root, filepaths);
         }
@@ -64,7 +64,6 @@ namespace WcfServiceFileSystemWatcher
         {
             return access.InsertGetFileTimeLog(root);
         }
-
 
         public void ScanDirectory(string p)
         {
@@ -78,6 +77,11 @@ namespace WcfServiceFileSystemWatcher
             {
                 this.ScanDirectory(dir);
             }   
+        }
+
+        public List<string> GetFiles(string dirname)
+        {
+            return Scanner.ScanDirectory(dirname);
         }
     }
 }
