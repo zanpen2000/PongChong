@@ -27,8 +27,6 @@ namespace ExtendPropertyLib.WPF.Helper
                }
               window.DialogResult = true;
            }
-
-             
         }
 
         public static void TryCancel(this ViewModelBase viewModel)

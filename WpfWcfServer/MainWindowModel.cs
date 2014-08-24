@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using WpfWcfServer.Layers;
 using System.Windows.Threading;
 using WpfWcfServer.Models;
+using System.ComponentModel;
 
 namespace WpfWcfServer
 {
@@ -39,22 +40,86 @@ namespace WpfWcfServer
         /// </summary>
         public MyServiceHost Host { get; private set; }
         public RelayCommand OnServiceCommand { get; set; }
+        public RelayCommand SettingCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
 
+        private DispatcherTimer dispatcherTimer;
+
+        List<SnapshotDispatcherTimer> timerList;
 
         public override void OnDoCreate(ExtendPropertyLib.ExtendObject item, params object[] args)
         {
             base.OnDoCreate(item, args);
 
-
-
             LogLines = new ObservableCollection<LogLineModel>();
 
             OnServiceCommand = new RelayCommand(StartService, CanSetService);
             ExitCommand = new RelayCommand(AppExit, CanAppExit);
+            SettingCommand = new RelayCommand(AppSetting, CanAppSetting);
 
             this.PropertyChanged += Model_PropertyChanged;
 
+            dispatcherTimer = new DispatcherTimer(DispatcherPriority.Normal);
+            dispatcherTimer.Interval = new TimeSpan(TimeSpan.TicksPerSecond); 
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+
+
+            timerList = new List<SnapshotDispatcherTimer>();
+        }
+
+        private void AppSetting()
+        {
+            var viewModel = CreateView<WpfWcfServer.Views.SettingViewModel>(true);
+            iw.ShowDialog(viewModel);
+        }
+
+        private bool CanAppSetting()
+        {
+            return true;
+        }
+
+        void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            dispatcherTimer.Stop();
+            var dirs = DirListHelper.Load();
+
+            List<string> lst = (from n in timerList select n.DirName).ToList();
+
+            var newdirs = dirs.Except(lst);
+
+            foreach (var dir in newdirs)
+            {
+                SetLog(string.Format("添加目录:{0}", dir));
+                var timer = new SnapshotDispatcherTimer(dir);
+                timer.OnScanningBeginning += timer_OnScanningBeginning;
+                timer.OnScanningCompleted += timer_OnScanningCompleted;
+                timerList.Add(timer);
+                timer.Start();
+            }
+
+            lst = (from n in timerList select n.DirName).ToList();
+
+            var invalidTimers = lst.Except(dirs);
+
+            foreach (var dirname in invalidTimers)
+            {
+                SetLog(string.Format("移除目录:{0}", dirname));
+                var timer = timerList.Find(x => x.DirName == dirname);
+                timer.Stop();
+                timerList.Remove(timer);
+            }
+
+            dispatcherTimer.Start();
+        }
+
+        void timer_OnScanningBeginning(object sender, string e)
+        {
+            SetLog(e);
+        }
+
+        void timer_OnScanningCompleted(object sender, string e)
+        {
+            SetLog(e);
         }
 
         void Host_Faulted(object sender, EventArgs e)
@@ -78,6 +143,9 @@ namespace WpfWcfServer
 
         private void AppExit()
         {
+            if (Host != null && Host.State == CommunicationState.Opened)
+                Host.Close();
+            System.Threading.Thread.Sleep(500);
             iw.Close(this);
         }
 
@@ -110,11 +178,15 @@ namespace WpfWcfServer
                     {
                         if (Started)
                         {
-
+                            dispatcherTimer.Stop();
+                            timerList.ForEach(t => t.Stop());
                             Host.Close();
                         }
                         else
                         {
+                            dispatcherTimer.Start();
+                            timerList.ForEach(t => t.Start());
+
                             Host = new MyServiceHost(typeof(WcfServiceFileSystemWatcher.Watcher));
                             Host.Opened += host_Opened;
                             Host.Closed += host_Closed;
@@ -171,14 +243,11 @@ namespace WpfWcfServer
         public override void OnLoad()
         {
             base.OnLoad();
-
-
         }
 
         public override void Closed()
         {
-            Host.Close();
-            System.Threading.Thread.Sleep(1000);
+
             System.Windows.Application.Current.Shutdown();
         }
 

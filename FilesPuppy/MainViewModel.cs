@@ -10,6 +10,7 @@ using System.ServiceModel;
 using System.Windows.Input;
 using System.Windows.Threading;
 using FilesPuppy.Layers;
+using WcfServiceFileSystemWatcher.Models;
 
 
 namespace FilesPuppy
@@ -68,29 +69,46 @@ namespace FilesPuppy
 
         }
 
-        private void GetAllTesting()
+        private async void GetAllTesting()
         {
             SetLog("getting files...");
+            string dirname = @"G:\SourceCode";
 
-            var channel = new ChannelFactory<WcfServiceFileSystemWatcher.IWatcher>("WcfServiceFileSystemWatcher.Watcher");
-            var proxy = channel.CreateChannel();
-            var files = proxy.GetFiles(@"G:\SourceCode");
-            SetLog(files.Count().ToString());
+
+            //string result = await ScannerHelper.ScanDirectory(dirname);
+            //SetLog(result.Length > 0 ? "done" : "failed!");
+
+            //System.IO.File.WriteAllText(@"g:\\allfiles.txt", result);
+            //SetLog("Write done!");
+
+
+            //EndpointAddress addr = new EndpointAddress("http://localhost:8733/WcfServiceFileSystemWatcher/Watcher/");
+
+            //var channel = new ChannelFactory<WcfServiceFileSystemWatcher.IWatcher>("WcfServiceFileSystemWatcher.Watcher");
+            //var proxy = channel.CreateChannel();
+            //var files = await proxy.GetJsonString(dirname);
+
+
+
+            //SetLog(files.Count().ToString());
 
 
             //using (WatcherServiceReference.WatcherClient client = new WatcherServiceReference.WatcherClient())
             //{
-                
+
             //    var files = client.GetFiles(@"G:\SourceCode");
             //    SetLog(files.Count().ToString());
             //}
 
-
-            //ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>((w) =>
-            //{
-            //    var files = w.GetFiles(@"G:\SourceCode");
-            //    SetLog(files.Count.ToString());
-            //});
+            await this.ThreadDispatcher.BeginInvoke((Action)delegate
+              {
+                  ServiceCaller.ServiceExecute<WcfServiceFileSystemWatcher.IWatcher>(async (w) =>
+                  {
+                      var files = await w.GetJsonString(dirname);
+                      System.IO.File.WriteAllText(@"g:\\json_allfiles.txt", files);
+                      SetLog("Write done!");
+                  });
+              });
 
         }
 
@@ -209,7 +227,6 @@ namespace FilesPuppy
             {
                 if (Started)
                 {
-
                     Host.Close();
                 }
                 else

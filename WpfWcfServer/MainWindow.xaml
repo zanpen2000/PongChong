@@ -5,7 +5,6 @@
         Title="MainWindow" Height="350" Width="600">
     <Window.Resources>
         <m:ServerStatusConverter x:Key="svrstatusConverter"/>
-        <m:WatchStatusConverter x:Key="watchStatusConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,6 +17,7 @@
             <MenuItem Header="系统">
                 <MenuItem Header="{Binding Started, Converter={StaticResource svrstatusConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
                           Command="{Binding OnServiceCommand,UpdateSourceTrigger=PropertyChanged}"/>
+                <MenuItem Header="设置" Command="{Binding SettingCommand}"/>
                 <Separator />
                 <MenuItem Header="退出" Command="{Binding ExitCommand}"/>
             </MenuItem>
@@ -36,13 +36,13 @@
         </ListView>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="{Binding Started, Converter={StaticResource svrstatusConverter},UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" 
-                Command="{Binding OnServiceCommand}" Grid.Column="0"/>
+                Command="{Binding OnServiceCommand}" Grid.Column="0" />
         </Grid>
     </Grid>
 </Window>

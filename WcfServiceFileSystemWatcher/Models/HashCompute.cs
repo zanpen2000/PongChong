@@ -71,25 +71,28 @@ namespace WcfServiceFileSystemWatcher.Models
             byte[] hashBytes;
             try
             {
-                if (__needBreakup())
+                lock (M)
                 {
-                    long seag = Info.Length / BreakNumber;
-                    if (fs.CanSeek)
+                    if (__needBreakup())
                     {
-                        for (int i = 0; i < listBytes.Count; i++)
+                        long seag = Info.Length / BreakNumber;
+                        if (fs.CanSeek)
                         {
-                            fs.Seek(i * seag, SeekOrigin.Begin);
-                            fs.Read(listBytes[i], 0, EachLength);
+                            for (int i = 0; i < listBytes.Count; i++)
+                            {
+                                fs.Seek(i * seag, SeekOrigin.Begin);
+                                fs.Read(listBytes[i], 0, EachLength);
 
-                            M.ComputeHash(listBytes[i]);
+                                M.ComputeHash(listBytes[i]);
+                            }
+                            hashBytes = M.Hash;
                         }
-                        hashBytes = M.Hash;
+                        else throw new IOException("文件内指针定位失败!");
                     }
-                    else throw new IOException("文件内指针定位失败!");
-                }
-                else
-                {
-                    hashBytes = M.ComputeHash(fs);
+                    else
+                    {
+                        hashBytes = M.ComputeHash(fs);
+                    }
                 }
             }
             catch (Exception)
@@ -134,5 +137,5 @@ namespace WcfServiceFileSystemWatcher.Models
         }
     }
 
-   
+
 }

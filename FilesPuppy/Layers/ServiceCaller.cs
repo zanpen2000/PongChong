@@ -5,7 +5,6 @@ using System.ServiceModel;
 using System.Text;
 using WcfServiceFileSystemWatcher;
 
-
 namespace FilesPuppy.Layers
 {
     public class ServiceCaller

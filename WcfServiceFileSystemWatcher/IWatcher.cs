@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using WcfServiceFileSystemWatcher.Models;
 
 namespace WcfServiceFileSystemWatcher
 {
@@ -18,34 +19,8 @@ namespace WcfServiceFileSystemWatcher
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: 在此添加您的服务操作
-        [OperationContract]
-        IEnumerable<string> GetLastFiles();
-
-        [OperationContract]
-        IEnumerable<string> GetLastFilesByDirectory(string root);
-
-
-        [OperationContract]
-        bool AddFile(string root, string filepath);
-
-        [OperationContract]
-        int AddFiles(string root, IEnumerable<string> filepaths);
-
-        [OperationContract]
-        bool InsertGetFileTimeLog(string root);
-
-        [OperationContract]
-        bool DeleteFile(string file);
-
-        [OperationContract]
-        void ScanDirectory(string p);
-
-        [OperationContract]
-        void ScanDirectorys(IEnumerable<string> dirs);
-
-        [OperationContract]
-        List<string> GetFiles(string dirname);
-
+        [OperationContract(AsyncPattern=true)]
+        System.Threading.Tasks.Task<string> GetJsonString(string dir);
     }
 
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。

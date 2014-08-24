@@ -48,15 +48,16 @@ namespace WcfServiceFileSystemWatcher.database
         }
 
 
-        public bool AppendFile(string root, string file)
+        public bool AppendFile(string root, string file, string filehash)
         {
             if (FileExists(file)) return true;// 文件存在就不添加了
 
-            string insql = @"insert into scanedfiles(rootpath, fullpath,scantime,got) values(@root,@path,@stime,@got)";
+            string insql = @"insert into scanedfiles(rootpath, filehash,fullpath,scantime,got) values(@root,@filehash, @path,@stime,@got)";
 
-            OleDbParameter[] parameters = new OleDbParameter[4] 
+            OleDbParameter[] parameters = new OleDbParameter[5] 
                 { 
                 new OleDbParameter("@root",root),
+                new OleDbParameter("@filehash",filehash),
                 new OleDbParameter("@path",file),
                 new OleDbParameter("@stime",DateTime.Now.ToString()),
                 new OleDbParameter("@got",false)
@@ -78,6 +79,20 @@ namespace WcfServiceFileSystemWatcher.database
 
             return false;
         }
+
+        public bool HashExists(string filehash)
+        {
+            DataSet ds;
+            if (oledb.GetDataSet("select * from scanedfiles where filehash='" + filehash + "'", out ds))
+            {
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    return true;
+            }
+
+            return false;
+
+        }
+
 
         public bool UpdateFile(string file)
         {
@@ -136,33 +151,83 @@ namespace WcfServiceFileSystemWatcher.database
             return files;
         }
 
-        internal bool AppendFiles(string root, List<Models.ScannedFilesModel> files)
+        internal bool AppendFile(string root, Models.ScannedFilesModel file)
+        {
+            return AppendFile(root, file.fullpath, file.filehash);
+        }
+
+        internal bool AppendFiles(List<Models.ScannedFilesModel> files)
         {
             bool result = false;
 
-            string insql = @"insert into scanedfiles(rootpath,filehash,fullpath,scantime,got) values(@root,@filehash,@path,@stime,@got)";
+            List<OleDbParameter[]> parasAdd = new List<OleDbParameter[]>();
+            List<OleDbParameter[]> parasUpdate = new List<OleDbParameter[]>();
 
             foreach (var file in files)
             {
-                if (FileExists(file.fullpath))
+                DataSet ds;
+                if (oledb.GetDataSet("select * from scanedfiles where filehash='" + file.filehash + "'", out ds))
                 {
-                    UpdateFile(file);
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                    {
+                        if (ds.Tables[0].Rows[0]["fullpath"].ToString().Equals(file.fullpath))
+                        {
+                            //存在该文件哈希且文件路径一致
+                        }
+                        else
+                        {
+                            //存在该文件哈希且文件路径 不 一致
+                            parasAdd.Add(new OleDbParameter[5] 
+                                { 
+                                new OleDbParameter("@root",file.rootpath),
+                                new OleDbParameter("@filehash",file.filehash),
+                                new OleDbParameter("@path",file.fullpath),
+                                new OleDbParameter("@stime",DateTime.Now.ToString()),
+                                new OleDbParameter("@got",false)
+                                });
+                        }
+                    }
+                    else//不存在该文件哈希
+                    {
+                        if (FileExists(file.fullpath))//文件存在，更新哈希
+                        {
+                            //parasUpdate.Add(new OleDbParameter[5]{
+                            //    new OleDbParameter("@root",file.rootpath),
+                            //    new OleDbParameter("@filehash",file.filehash),
+                            //    new OleDbParameter("@path",file.fullpath),
+                            //    new OleDbParameter("@stime",DateTime.Now.ToString()),
+                            //    new OleDbParameter("@got",false)                                
+                            //});
+
+                            result &= UpdateFilehash(file);
+                        }
+                        else//文件不存在
+                        {
+                            parasAdd.Add(new OleDbParameter[5] 
+                                { 
+                                new OleDbParameter("@root",file.rootpath),
+                                new OleDbParameter("@filehash",file.filehash),
+                                new OleDbParameter("@path",file.fullpath),
+                                new OleDbParameter("@stime",DateTime.Now.ToString()),
+                                new OleDbParameter("@got",false)
+                                });
+                        }
+                    }
                 }
-
-                OleDbParameter[] parameters = new OleDbParameter[5] 
-                { 
-                    new OleDbParameter("@root",file.rootpath),
-                    new OleDbParameter("@filehash",file.filehash),
-                    new OleDbParameter("@path",file.fullpath),
-                    new OleDbParameter("@stime",file.scantime),
-                    new OleDbParameter("@got",false)
-                
-                };
-
-                result &= oledb.OleDbExecute(insql, parameters);
             }
 
+            string insql = @"insert into scanedfiles(rootpath, filehash,fullpath,scantime,got) values(@root,@filehash, @path,@stime,@got)";
+            oledb.OleDbExecuteMany(insql, parasAdd);
+
             return result;
+        }
+
+        public bool UpdateFilehash(Models.ScannedFilesModel file)
+        {
+            string update = "update scanedfiles  set `filehash`='" + file.filehash + "'," + "`got`=" + false + "  where `fullpath`='" + file.fullpath + "'";
+            if (!oledb.OleDbExecute(update))
+                return false;
+            return true;
         }
 
         public bool UpdateFile(Models.ScannedFilesModel file)
