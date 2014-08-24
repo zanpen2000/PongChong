@@ -19,8 +19,11 @@ namespace WcfServiceFileSystemWatcher
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: 在此添加您的服务操作
-        [OperationContract(AsyncPattern=true)]
+        [OperationContract(AsyncPattern = true)]
         System.Threading.Tasks.Task<string> GetJsonString(string dir);
+
+        [OperationContract]
+        System.IO.Stream DownloadFile(string filepath);
     }
 
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -34,6 +35,23 @@ namespace WcfServiceFileSystemWatcher
         public async System.Threading.Tasks.Task<string> GetJsonString(string dir)
         {
             return await ScannerHelper.ScanDirectoryAsync(dir);
+        }
+
+
+        public System.IO.Stream DownloadFile(string filepath)
+        {
+
+            if (!File.Exists(filepath))//判断文件是否存在
+            {
+                return null;
+            }
+
+            try
+            {
+                Stream myStream = File.OpenRead(filepath);
+                return myStream;
+            }
+            catch { return null; }
         }
     }
 }
